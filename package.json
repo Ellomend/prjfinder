@@ -20,10 +20,12 @@
     "@oclif/core": "^1.16.5",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.1.1",
+    "chalk": "^5.1.2",
+    "easy-table": "^1.2.0",
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
-    "@oclif/test": "^2.2.2",
+    "@oclif/test": "^2.2.3",
     "@types/chai": "^4",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.0.0",
