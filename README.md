@@ -1,7 +1,7 @@
-oclif-hello-world
+projectsfinder
 =================
 
-oclif example Hello World CLI
+Find your js projects. Youll be surprised.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
