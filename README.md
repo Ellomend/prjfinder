@@ -1,4 +1,4 @@
-projectsfinder
+projectsfinder (WIP PoC)
 =================
 
 Find your js projects. Youll be surprised.
