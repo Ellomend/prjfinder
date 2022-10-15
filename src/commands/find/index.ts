@@ -7,8 +7,7 @@ import fs = require('node:fs')
 
 const arr : string[] = []
 
-export default class Find extends Command {
-
+export default class Index extends Command {
   public EXCLUDED_DIRECTORIES = ['node_modules', '.svn', '.hg', '.next', '.cache', '.dist', '.out', '.build', '.tmp', '.temp', '.git', '.vscode', '.idea', '.vs', '.github', '.circleci']
 
   static description = 'Recursively find folders containing a package.json file'
@@ -25,7 +24,7 @@ export default class Find extends Command {
   static args = [{name: 'path', description: 'path to search'}]
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(Find)
+    const {args, flags} = await this.parse(Index)
 
     const path = args.path || process.cwd()
     const depth = flags.depth || 5

@@ -1,15 +1,15 @@
 {
-  "name": "prjfinder",
-  "version": "0.0.1",
-  "description": "Find nodejs projects in subdirectories",
-  "author": "AmeSott",
+  "name": "projectsfinder",
+  "version": "0.0.0",
+  "description": "Search for JS projects in folders rec.",
+  "author": "Ellomend @Ellomend",
   "bin": {
-    "prjfinder": "./bin/run"
+    "projectsfinder": "./bin/run"
   },
-  "homepage": "https://github.com/Ellomend/prjfinder",
+  "homepage": "https://github.com/Ellomend/projectsfinder",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "Ellomend/prjfinder",
+  "repository": "Ellomend/projectsfinder",
   "files": [
     "/bin",
     "/dist",
@@ -17,15 +17,13 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@oclif/core": "^1.18.0",
+    "@oclif/core": "^1.16.5",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.1.1",
-    "chalk": "^5.1.2",
-    "easy-table": "^1.2.0",
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
-    "@oclif/test": "^2.2.3",
+    "@oclif/test": "^2.2.2",
     "@types/chai": "^4",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.0.0",
@@ -42,8 +40,8 @@
     "typescript": "^4.8.4"
   },
   "oclif": {
-    "bin": "prjfinder",
-    "dirname": "prjfinder",
+    "bin": "projectsfinder",
+    "dirname": "projectsfinder",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
@@ -68,7 +66,7 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "bugs": "https://github.com/Ellomend/prjfinder/issues",
+  "bugs": "https://github.com/Ellomend/projectsfinder/issues",
   "keywords": [
     "oclif"
   ],
