@@ -50,7 +50,7 @@ DESCRIPTION
   Recursively find folders containing a package.json file
 
 EXAMPLES
-  $ projectsfinder find
+  $ projectsfinder find '~/projects' -d 3
 ```
 
 
