@@ -1,14 +1,15 @@
-import fse = require('fs-extra')
-import os = require('node:os')
-import {Command, Flags} from '@oclif/core'
+import fse = require('fs-extra');
+import os = require('node:os');
 // import EasyTable = require('easy-table')
-import path = require('path')
-import fs = require('node:fs')
+import path = require('path');
+import fs = require('node:fs');
+import {Command, Flags} from '@oclif/core'
+import EasyTable from 'easy-table'
+import {IProjectInfo} from '../types/types';
 
 const arr : string[] = []
 
 export default class Find extends Command {
-
   public EXCLUDED_DIRECTORIES = ['node_modules', '.svn', '.hg', '.next', '.cache', '.dist', '.out', '.build', '.tmp', '.temp', '.git', '.vscode', '.idea', '.vs', '.github', '.circleci']
 
   static description = 'Recursively find folders containing a package.json file'
@@ -29,15 +30,16 @@ export default class Find extends Command {
 
     const path = args.path || process.cwd()
     const depth = flags.depth || 5
-    let results : any = []
+    // let results : any = []
 
     try {
-      results = await this.search(this.validatePath(path), depth)
+      await this.search(this.validatePath(path), depth)
     } catch (error: any) {
       this.log(error?.message)
     }
 
-    this.printResults(results)
+    const projectInfoArray = await this.getProjectsInfoArray(arr)
+    this.printInfoArray(projectInfoArray)
 
     this.log(`Found ${arr.length} package.json files`)
   }
@@ -81,8 +83,49 @@ export default class Find extends Command {
     throw new Error(`Path ${searchDirPath} is not a directory`)
   }
 
-  private printResults(res:any): void {
-    this.log('arr', arr as string[])
-    this.log('Found package.json files:', arr.length, res)
+  private async scanProject(pathToDir: string): Promise<IProjectInfo> {
+    // we want to get the project name, the project path, the project type, the project version
+    // by parsing the package.json file
+    const packageJsonPath = path.join(pathToDir, 'package.json')
+    const packageJson = await fse.readJSON(packageJsonPath)
+    const projectName = packageJson.name
+    const projectVersion = packageJson.version
+    // check content of dependencies
+    const dependencies = packageJson.dependencies
+    const devDependencies = packageJson.devDependencies
+    const allDependencies = {...dependencies, ...devDependencies}
+    // check if dependencies contains popular packages like express, vue, react, etc
+    const popularPackages = ['express', 'vue', 'react', 'angular', 'nestjs', 'vite', 'graphql']
+
+    const includedPopularPackages = popularPackages.filter(packageName => {
+      return allDependencies[packageName] !== undefined
+    })
+
+    const projectDescription = packageJson.description
+    const packages = includedPopularPackages.length > 0 ? includedPopularPackages.join(', ') : 'unknown'
+    return {projectName, projectVersion, packages, description: projectDescription, projectPath: pathToDir}
+  }
+
+  private async getProjectsInfoArray(pathArray: string[]): Promise<Array<IProjectInfo>> {
+    return Promise.all(pathArray.map(async path => {
+      const projectInfo = await this.scanProject(path)
+      return {...projectInfo, path}
+    }))
+  }
+
+  private printInfoArray(infoArray:Array<IProjectInfo>):void {
+    const t = new EasyTable()
+    for (const projectInfo of infoArray) {
+      t.cell('Name', projectInfo.projectName)
+      t.cell('Version', projectInfo.projectVersion)
+      t.cell('Packages', projectInfo.packages)
+      t.cell('Description', projectInfo.description)
+      t.cell('Path', projectInfo.projectPath)
+      t.newRow()
+    }
+
+    this.log('----')
+    console.log(t.toString())
+    this.log('----')
   }
 }
